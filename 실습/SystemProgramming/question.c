@@ -1,35 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-void other(int fd);
+char *env[] = {"USER=unknow", "PATH=/tmp", NULL};
 
-void main()
+int main(void)
 {
-    int fd;
-    char buff[] = "123";
-    fd = open("file.hole", O_RDONLY);
+    pid_t pid;
 
-    int value = fcntl(fd, F_GETFD);
-
-    value |= O_APPEND;
-
-    fcntl(fd, F_SETFD, value);
-
-    value = fcntl(fd, F_GETFD);
-
-    if ((value & O_WRONLY) == O_WRONLY)
+    if ((pid = fork()) < 0)
     {
-        write(1, buff, 3);
+        perror("fork error\n");
+        exit(1);
     }
 
-    // other(fd);
-    // printf(" main fd %d", fd);
-    // write(1, buff, 3);
-}
+    // 자식
+    else if (pid == 0)
+    {
+        if (execle("~/bin/echoall", "echoall", "arg1", "arg2", '\0', env) < 0)
+        {
+            fprintf(stderr, "execle error \n");
+            exit(1);
+        }
 
-void other(int fd)
-{
-    printf(" other fd %d", fd);
+        // 에러시에만 종료(exit(1)) 성공적으로 수행시 if else 문 이후로 넘어감
+        printf("success exe");
+    }
+    // 부모
+    else
+    {
+    }
+
+    // 자식, 부모 둘 다 접근 가능.
+    if (waitpid(pid, NULL, 0) < 0)
+    {
+        perror("wait error\n");
+        exit(1);
+    }
+
+    // 위에 자식 프로세스에서 종료되지 않았다면 실행 가능.
+    else if (pid == 0)
+    {
+        if (execlp("echoall", "echoall", "only 1 arg", '\0') < 0)
+        {
+            fprintf(stderr, "execlp error\n");
+            exit(1);
+        }
+    }
+
+    exit(0);
 }

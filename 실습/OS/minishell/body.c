@@ -277,7 +277,7 @@ int exeInstruction(int RD_Lflag, int RD_Rflag, int BG_flag, char *argp[])
         {
             int fd;
             // 파일이 없는 경우 에러
-            fd = open(argp[RD_Lflag + 1], O_RDONLY | O_NONBLOCK, 0600);
+            fd = open(argp[RD_Lflag + 1], O_RDONLY | O_NONBLOCK, 0644);
             if (fd < 0)
             {
                 perror("no file");
@@ -302,7 +302,7 @@ int exeInstruction(int RD_Lflag, int RD_Rflag, int BG_flag, char *argp[])
         {
             int fd;
             // 파일이 없는 경우 생성
-            fd = open(argp[RD_Rflag + 1], O_CREAT | O_WRONLY | O_TRUNC, 0600);
+            fd = open(argp[RD_Rflag + 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 
             // 표준 출력을 파일로 바꾸어 준다.
             dup2(fd, 1);

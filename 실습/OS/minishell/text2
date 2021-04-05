@@ -1,7 +1,8 @@
-total 248
+total 256
 -rwxr-xr-x  1 dongjin  staff  50801  3 31 17:45 body
 -rw-r--r--@ 1 dongjin  staff   9802  3 31 17:26 body.c
 -rw-r--r--  1 dongjin  staff   1369  3 26 22:09 t_body.c
--rw-r--r--  1 dongjin  staff      0  3 31 17:45 text
+-rw-r--r--  1 dongjin  staff    334  3 31 17:45 text
+-rw-r--r--  1 dongjin  staff      0  3 31 17:45 text2
 -rwxr-xr-x  1 dongjin  staff  49576  3 27 04:28 try
 -rw-r--r--  1 dongjin  staff    626  3 28 18:49 try.c
