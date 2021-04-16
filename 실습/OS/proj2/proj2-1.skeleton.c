@@ -203,7 +203,10 @@ void check_sudoku(void)
     for (int i = 0; i < 9; i++)
     {
         thargs[i] = i;
-        pthread_create(&workers[i + 2], NULL, check_subgrid, &thargs[i]);
+        if (pthread_create(&workers[i + 2], NULL, check_subgrid, &thargs[i]) != 0)
+        {
+            perror("thread error subgrid");
+        }
     }
 
     /*
